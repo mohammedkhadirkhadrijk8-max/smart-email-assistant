@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  email-assistant:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smart-email-assistant
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY:-your-secret-key-change-in-production}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/app
+      - /app/__pycache__
+    networks:
+      - email-network
+    stdin_open: true
+    tty: true
+
+networks:
+  email-network:
+    driver: bridge

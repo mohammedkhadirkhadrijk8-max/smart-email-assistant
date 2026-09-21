@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Email Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📧 Smart Email Assistant</h1>
+            <p>AI-powered email reply generator</p>
+        </header>
+
+        <main>
+            <!-- Navigation Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="inbox">📬 Inbox</button>
+                <button class="tab-btn" data-tab="compose">✉️ Compose</button>
+                <button class="tab-btn" data-tab="generate">🤖 Generate Reply</button>
+            </div>
+
+            <!-- Inbox Tab -->
+            <section id="inbox" class="tab-content active">
+                <div class="inbox-controls">
+                    <input type="text" id="searchInput" placeholder="Search emails..." class="search-input">
+                    <button onclick="fetchEmails()" class="btn btn-primary">Refresh Emails</button>
+                </div>
+                <div id="emailsList" class="emails-list">
+                    <p class="loading">Loading emails...</p>
+                </div>
+            </section>
+
+            <!-- Compose Tab -->
+            <section id="compose" class="tab-content">
+                <div class="compose-form">
+                    <div class="form-group">
+                        <label for="toEmail">To:</label>
+                        <input type="email" id="toEmail" placeholder="recipient@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="composeSubject">Subject:</label>
+                        <input type="text" id="composeSubject" placeholder="Email subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="composeBody">Message:</label>
+                        <textarea id="composeBody" placeholder="Write your email here..." rows="10" required></textarea>
+                    </div>
+                    <button onclick="sendEmail()" class="btn btn-success">Send Email</button>
+                </div>
+            </section>
+
+            <!-- Generate Reply Tab -->
+            <section id="generate" class="tab-content">
+                <div class="generate-form">
+                    <div class="form-group">
+                        <label for="emailContent">Original Email:</label>
+                        <textarea id="emailContent" placeholder="Paste the email you want to reply to..." rows="6"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="tone">Tone:</label>
+                        <select id="tone">
+                            <option value="professional">Professional</option>
+                            <option value="friendly">Friendly</option>
+                            <option value="brief">Brief</option>
+                            <option value="grateful">Grateful</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customContext">Additional Context (optional):</label>
+                        <textarea id="customContext" placeholder="Any additional context for the AI..." rows="4"></textarea>
+                    </div>
+                    <button onclick="generateReply()" class="btn btn-primary">Generate Reply</button>
+                </div>
+
+                <div id="generatedReply" class="generated-reply hidden">
+                    <h3>Generated Reply:</h3>
+                    <textarea id="replyText" rows="8"></textarea>
+                    <div class="reply-actions">
+                        <button onclick="copyReply()" class="btn btn-secondary">📋 Copy</button>
+                        <button onclick="regenerateReply()" class="btn btn-secondary">🔄 Regenerate</button>
+                        <button onclick="useReplyForCompose()" class="btn btn-success">➡️ Use in Compose</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Email Detail Modal -->
+        <div id="emailModal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <div id="modalBody"></div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
